@@ -1,0 +1,126 @@
+syntax = "proto3";
+
+package gobang;
+
+// 五子棋结果
+enum GobangResult {
+  Success = 0;
+  InvalidMove = 1;
+  GameOver = 2;
+  RoomNotFound = 3;
+  PlayerNotInRoom = 4;
+  NotYourTurn = 5;
+  // 服务器错误
+  ServerError = 6;
+}
+
+// 棋子颜色
+enum GobangColor {
+  White = 0;
+  Black = 1;
+}
+
+// 棋盘方格
+enum GobangCell {
+  EmptyCell = 0;
+  WhiteCell = 1;
+  BlackCell = 2;
+}
+
+// 游戏服务
+service GameService {
+  rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse);
+  rpc MakeMove(MoveRequest) returns (MoveResponse);
+  rpc GetGameRoomByEmail(GetGameRoomByEmailRequest)
+      returns (GetGameRoomByEmailResponse);
+}
+
+// 获取游戏房间请求
+message GetGameRoomByEmailRequest { string email = 1; }
+
+// 获取游戏房间响应
+message GetGameRoomByEmailResponse {
+  GameRoom game_room = 1;
+  string error = 2;
+}
+
+// 创建房间请求
+message CreateRoomRequest {
+  string player1_email = 1;
+  string player2_email = 2;
+}
+
+// 创建房间响应
+message CreateRoomResponse {
+  string room_id = 1;
+  string error = 2;
+  // 白棋玩家邮箱
+  string white_player_email = 3;
+  // 黑棋玩家邮箱
+  string black_player_email = 4;
+}
+
+// 落子请求
+message MoveRequest {
+  string room_id = 1;
+  string player_email = 2;
+  int32 x = 3;
+  int32 y = 4;
+}
+
+// 落子响应
+message MoveResponse { GobangResult result = 1; }
+
+// 落子广播消息
+message MoveBroadcastMessage {
+  string room_id = 1;
+  int32 x = 2;
+  int32 y = 3;
+  // 进行落子的玩家
+  Player from = 4;
+  // 对手
+  Player to = 5;
+}
+
+// 游戏状态
+enum GameStatus {
+  Playing = 0;
+  WhiteWin = 1;
+  BlackWin = 2;
+  Draw = 3;
+}
+
+// 玩家
+message Player {
+  string email = 1;
+  GobangColor color = 2;
+  string room_id = 3;
+}
+
+// 五子棋游戏
+message Gobang {
+  // 棋盘大小
+  int32 board_size = 1;
+  // 压缩的棋盘
+  bytes compressed_board = 2;
+  // 游戏状态
+  GameStatus status = 3;
+  // 当前落子颜色
+  GobangColor current_color = 4;
+}
+
+// 游戏房间
+message GameRoom {
+  string room_id = 1;
+  Player white_player = 2;
+  Player black_player = 3;
+  Gobang gobang = 4;
+}
+
+// 游戏结束消息
+message GameEndMessage {
+  string room_id = 1;
+  GameStatus game_status = 2;
+  Player winner = 3;
+  Player loser = 4;
+}

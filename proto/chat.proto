@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package chat;
+
+message Message {
+  // 消息内容
+  string content = 1;
+  // 发送者邮箱
+  string sender_email = 2;
+  // 在哪个房间发送的
+  string room_id = 3;
+}
+
+// 消息列表
+message MessageList { repeated Message messages = 1; }
+
+// 聊天服务
+service ChatService {
+  // 发送消息
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  // 获取消息列表
+  rpc GetMessageList(GetMessageListRequest) returns (GetMessageListResponse);
+}
+
+// 发送消息请求
+message SendMessageRequest { Message message = 1; }
+
+// 发送消息响应
+message SendMessageResponse { bool success = 1; }
+
+// 获取消息列表请求
+message GetMessageListRequest { string room_id = 1; }
+
+// 获取消息列表响应
+message GetMessageListResponse { MessageList messages = 1; }

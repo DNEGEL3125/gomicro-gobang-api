@@ -1,0 +1,60 @@
+
+syntax = "proto3";
+
+package user;
+
+service UserService {
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);
+}
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string error = 1;
+    string email = 2;
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+    string username = 3;
+}
+
+message RegisterResponse {
+    string error = 1;
+}
+
+message GetUserInfoRequest {
+    string email = 1;
+}
+
+message GetUserInfoResponse {
+    string error = 1;
+    User user = 2;
+}
+
+message User {
+    string id = 1;
+    string email = 2;
+    string username = 3;
+    int32 elo = 4;
+    UserStatus status = 5;
+}
+
+
+// 用户状态
+enum UserStatus {
+  // 在线 
+  Online = 0;
+  // 离线
+  Offline = 1;
+  // 游戏中
+  InGame = 2;
+  // 匹配中
+  Matching = 3;
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package match;
+
+// 匹配服务
+service MatchService { rpc JoinQueue(JoinRequest) returns (JoinResponse); }
+
+// 加入匹配结果
+enum JoinQueueResult {
+  Success = 0;
+  PlayerAlreadyInQueue = 1;
+  PlayerAlreadyInGame = 2;
+}
+
+// 加入匹配的请求
+message JoinRequest {
+  string email = 1;
+  int32 elo = 2;
+}
+
+// 加入匹配的响应
+message JoinResponse { JoinQueueResult result = 1; }
+
+// 匹配结果的广播消息
+message MatchBroacastMessage {
+  string room_id = 1;
+  string white_player_email = 2;
+  string black_player_email = 3;
+}
