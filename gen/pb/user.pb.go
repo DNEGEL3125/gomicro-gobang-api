@@ -458,6 +458,102 @@ func (x *User) GetStatus() UserStatus {
 	return UserStatus_Online
 }
 
+type SetUserStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Status        UserStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=user.UserStatus" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetUserStatusRequest) Reset() {
+	*x = SetUserStatusRequest{}
+	mi := &file_user_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetUserStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetUserStatusRequest) ProtoMessage() {}
+
+func (x *SetUserStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetUserStatusRequest.ProtoReflect.Descriptor instead.
+func (*SetUserStatusRequest) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SetUserStatusRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *SetUserStatusRequest) GetStatus() UserStatus {
+	if x != nil {
+		return x.Status
+	}
+	return UserStatus_Online
+}
+
+type SetUserStatusResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Error         string                 `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetUserStatusResponse) Reset() {
+	*x = SetUserStatusResponse{}
+	mi := &file_user_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetUserStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetUserStatusResponse) ProtoMessage() {}
+
+func (x *SetUserStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetUserStatusResponse.ProtoReflect.Descriptor instead.
+func (*SetUserStatusResponse) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *SetUserStatusResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
 var File_user_proto protoreflect.FileDescriptor
 
 const file_user_proto_rawDesc = "" +
@@ -487,7 +583,12 @@ const file_user_proto_rawDesc = "" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
 	"\busername\x18\x03 \x01(\tR\busername\x12\x10\n" +
 	"\x03elo\x18\x04 \x01(\x05R\x03elo\x12(\n" +
-	"\x06status\x18\x05 \x01(\x0e2\x10.user.UserStatusR\x06status*?\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x10.user.UserStatusR\x06status\"V\n" +
+	"\x14SetUserStatusRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\x12(\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x10.user.UserStatusR\x06status\"-\n" +
+	"\x15SetUserStatusResponse\x12\x14\n" +
+	"\x05error\x18\x01 \x01(\tR\x05error*?\n" +
 	"\n" +
 	"UserStatus\x12\n" +
 	"\n" +
@@ -495,11 +596,12 @@ const file_user_proto_rawDesc = "" +
 	"\aOffline\x10\x01\x12\n" +
 	"\n" +
 	"\x06InGame\x10\x02\x12\f\n" +
-	"\bMatching\x10\x032\xbe\x01\n" +
+	"\bMatching\x10\x032\x88\x02\n" +
 	"\vUserService\x120\n" +
 	"\x05Login\x12\x12.user.LoginRequest\x1a\x13.user.LoginResponse\x129\n" +
 	"\bRegister\x12\x15.user.RegisterRequest\x1a\x16.user.RegisterResponse\x12B\n" +
-	"\vGetUserInfo\x12\x18.user.GetUserInfoRequest\x1a\x19.user.GetUserInfoResponseBv\n" +
+	"\vGetUserInfo\x12\x18.user.GetUserInfoRequest\x1a\x19.user.GetUserInfoResponse\x12H\n" +
+	"\rSetUserStatus\x12\x1a.user.SetUserStatusRequest\x1a\x1b.user.SetUserStatusResponseBv\n" +
 	"\bcom.userB\tUserProtoP\x01Z/github.com/DNEGEL3125/gomicro-gobang-api/gen/pb\xa2\x02\x03UXX\xaa\x02\x04User\xca\x02\x04User\xe2\x02\x10User\\GPBMetadata\xea\x02\x04Userb\x06proto3"
 
 var (
@@ -515,31 +617,36 @@ func file_user_proto_rawDescGZIP() []byte {
 }
 
 var file_user_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_user_proto_goTypes = []any{
-	(UserStatus)(0),             // 0: user.UserStatus
-	(*LoginRequest)(nil),        // 1: user.LoginRequest
-	(*LoginResponse)(nil),       // 2: user.LoginResponse
-	(*RegisterRequest)(nil),     // 3: user.RegisterRequest
-	(*RegisterResponse)(nil),    // 4: user.RegisterResponse
-	(*GetUserInfoRequest)(nil),  // 5: user.GetUserInfoRequest
-	(*GetUserInfoResponse)(nil), // 6: user.GetUserInfoResponse
-	(*User)(nil),                // 7: user.User
+	(UserStatus)(0),               // 0: user.UserStatus
+	(*LoginRequest)(nil),          // 1: user.LoginRequest
+	(*LoginResponse)(nil),         // 2: user.LoginResponse
+	(*RegisterRequest)(nil),       // 3: user.RegisterRequest
+	(*RegisterResponse)(nil),      // 4: user.RegisterResponse
+	(*GetUserInfoRequest)(nil),    // 5: user.GetUserInfoRequest
+	(*GetUserInfoResponse)(nil),   // 6: user.GetUserInfoResponse
+	(*User)(nil),                  // 7: user.User
+	(*SetUserStatusRequest)(nil),  // 8: user.SetUserStatusRequest
+	(*SetUserStatusResponse)(nil), // 9: user.SetUserStatusResponse
 }
 var file_user_proto_depIdxs = []int32{
 	7, // 0: user.GetUserInfoResponse.user:type_name -> user.User
 	0, // 1: user.User.status:type_name -> user.UserStatus
-	1, // 2: user.UserService.Login:input_type -> user.LoginRequest
-	3, // 3: user.UserService.Register:input_type -> user.RegisterRequest
-	5, // 4: user.UserService.GetUserInfo:input_type -> user.GetUserInfoRequest
-	2, // 5: user.UserService.Login:output_type -> user.LoginResponse
-	4, // 6: user.UserService.Register:output_type -> user.RegisterResponse
-	6, // 7: user.UserService.GetUserInfo:output_type -> user.GetUserInfoResponse
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0, // 2: user.SetUserStatusRequest.status:type_name -> user.UserStatus
+	1, // 3: user.UserService.Login:input_type -> user.LoginRequest
+	3, // 4: user.UserService.Register:input_type -> user.RegisterRequest
+	5, // 5: user.UserService.GetUserInfo:input_type -> user.GetUserInfoRequest
+	8, // 6: user.UserService.SetUserStatus:input_type -> user.SetUserStatusRequest
+	2, // 7: user.UserService.Login:output_type -> user.LoginResponse
+	4, // 8: user.UserService.Register:output_type -> user.RegisterResponse
+	6, // 9: user.UserService.GetUserInfo:output_type -> user.GetUserInfoResponse
+	9, // 10: user.UserService.SetUserStatus:output_type -> user.SetUserStatusResponse
+	7, // [7:11] is the sub-list for method output_type
+	3, // [3:7] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_user_proto_init() }
@@ -553,7 +660,7 @@ func file_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_proto_rawDesc), len(file_user_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

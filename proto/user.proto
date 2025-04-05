@@ -7,6 +7,7 @@ service UserService {
     rpc Login(LoginRequest) returns (LoginResponse);
     rpc Register(RegisterRequest) returns (RegisterResponse);
     rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);
+    rpc SetUserStatus(SetUserStatusRequest) returns (SetUserStatusResponse);
 }
 
 message LoginRequest {
@@ -57,4 +58,13 @@ enum UserStatus {
   InGame = 2;
   // 匹配中
   Matching = 3;
+}
+
+message SetUserStatusRequest {
+  string email = 1;
+  UserStatus status = 2;
+}
+
+message SetUserStatusResponse {
+  string error = 1;
 }

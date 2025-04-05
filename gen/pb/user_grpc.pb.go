@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_Login_FullMethodName       = "/user.UserService/Login"
-	UserService_Register_FullMethodName    = "/user.UserService/Register"
-	UserService_GetUserInfo_FullMethodName = "/user.UserService/GetUserInfo"
+	UserService_Login_FullMethodName         = "/user.UserService/Login"
+	UserService_Register_FullMethodName      = "/user.UserService/Register"
+	UserService_GetUserInfo_FullMethodName   = "/user.UserService/GetUserInfo"
+	UserService_SetUserStatus_FullMethodName = "/user.UserService/SetUserStatus"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -31,6 +32,7 @@ type UserServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
+	SetUserStatus(ctx context.Context, in *SetUserStatusRequest, opts ...grpc.CallOption) (*SetUserStatusResponse, error)
 }
 
 type userServiceClient struct {
@@ -71,6 +73,16 @@ func (c *userServiceClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequ
 	return out, nil
 }
 
+func (c *userServiceClient) SetUserStatus(ctx context.Context, in *SetUserStatusRequest, opts ...grpc.CallOption) (*SetUserStatusResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetUserStatusResponse)
+	err := c.cc.Invoke(ctx, UserService_SetUserStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -78,6 +90,7 @@ type UserServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
+	SetUserStatus(context.Context, *SetUserStatusRequest) (*SetUserStatusResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedUserServiceServer) Register(context.Context, *RegisterRequest
 }
 func (UnimplementedUserServiceServer) GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUserServiceServer) SetUserStatus(context.Context, *SetUserStatusRequest) (*SetUserStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetUserStatus not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -172,6 +188,24 @@ func _UserService_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_SetUserStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetUserStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).SetUserStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_SetUserStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).SetUserStatus(ctx, req.(*SetUserStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +224,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserInfo",
 			Handler:    _UserService_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "SetUserStatus",
+			Handler:    _UserService_SetUserStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
